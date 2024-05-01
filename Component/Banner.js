@@ -28,16 +28,16 @@ export default Banner
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    padding:20,
   },
   image: {
     width:'100%',
-    maxWidth:340,
-    maxHeight:250,
+    // maxWidth:340,
+    maxHeight:200,
     alignSelf:'center',
     alignItems:'center',
     justifyContent:'center',
     borderRadius: 20,
-    padding:20,
   }
 })

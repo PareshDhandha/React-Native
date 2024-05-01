@@ -1,9 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { Chip } from "react-native-paper";
 
 const Category = () => {
-  const cateory = [
+  const [category, setCategory] = useState([]);
+  const allCateory = [
     {
       id: 1,
       name: "All",
@@ -25,6 +32,16 @@ const Category = () => {
       name: "SmartWatch",
     },
   ];
+  const getCategory =  () => {
+     fetch("https://fakestoreapi.com/products/categories")
+    .then(res => res.json())
+    .then(json => setCategory(json))
+    // console.log("category...", res);
+    // setCategory(res);
+  };
+  useEffect(() => {
+    getCategory();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.cateory}>
@@ -33,13 +50,31 @@ const Category = () => {
           <Text style={styles.seeall}>See all</Text>
         </TouchableOpacity>
       </View>
-      {cateory.map((item) => (
-        <View style={styles.chip}>
-          <TouchableOpacity style = {{flexDirection:'row'}}>
-            <Chip> {item.name} </Chip>
-          </TouchableOpacity>
-        </View>
-      ))}
+      {/* {
+      Array.isArray(category) ?
+      category.map((data,index) => {
+        return (
+          <View key={index} style = {styles.chipView}>
+            <TouchableOpacity>
+              <Chip>{data}</Chip>
+            </TouchableOpacity>
+          </View>
+        );
+      }):null
+    } */}
+
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={allCateory}
+        renderItem={({ item }) => (
+          <View style={styles.chip}>
+            <TouchableOpacity>
+              <Chip mode="outlined">{item.name}</Chip>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -48,15 +83,12 @@ export default Category;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: 140,
     padding: 20,
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
   },
   cateory: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent:'space-between'
     // padding: 20,
   },
   text: {
@@ -69,14 +101,14 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   chip: {
-    // flex:1,
     marginTop: 20,
     fontSize: 16,
-    display: "flex",
-    flexDirection: "row",
-    // justifyContent: 'flex-start',
-    // width: 50,
-    // padding: 3,
     borderRadius: 8,
+    // marginLeft:10
+    marginRight:10
   },
+  chipView: {
+    display: 'flex',
+    flexDirection:'row',
+  }
 });

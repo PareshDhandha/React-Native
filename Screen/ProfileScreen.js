@@ -6,8 +6,8 @@ import Registation from '../Authogication/Registration'
 export default function ProfileScreen() {
   return (
     <View>
-      {/* <Login /> */}
-      <Registation />
+      <Login />
+      {/* <Registation /> */}
     </View>
   )
 }

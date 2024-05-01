@@ -1,5 +1,5 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native-paper";
 import Button from "../Component/Button";
 import TextInput from "../Component/TextInput";
@@ -7,12 +7,13 @@ import Logo from "../Component/Logo";
 import { EmailValidation } from "../Helper/EmailValidation";
 import { PasswordValidation } from "../Helper/PasswordValidation";
 import { theme } from "../Core/theme";
+import { useNavigation } from "@react-navigation/native";
 
-
-const Login = ({ navigation }) => {
+const API = 'https://fakestoreapi.com/auth/login'
+const Login = () => {
   const [email, setEmail] = useState({ value: "", email: "" });
   const [password, setPassword] = useState({ value: "", password: "" });
-
+  const navigation = useNavigation();
   const onLoginPressed = () => {
     const emailError = EmailValidation(email.value)
     const passwordError = PasswordValidation(password.value)
@@ -23,6 +24,22 @@ const Login = ({ navigation }) => {
     }
     navigation.navigate('Product')
   }
+
+  const getUser = async() => {
+      const user = await fetch(API , {
+        method: 'POST',
+        body:JSON.stringify({
+          email:  "mor_2314",
+          password:  "83r5^_"
+        })
+      })
+      const res = user.json();
+      console.log('user....',res);
+  }
+
+  useEffect(() => {
+    getUser();
+  },[])
   return (
     <View style = {styles.container}>
       <Logo />
@@ -73,6 +90,7 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: theme.colors.primary,
+    marginLeft:5,
   },
   forgetpassword: {
     width: '100%',
@@ -84,7 +102,8 @@ const styles = StyleSheet.create({
     color: theme.colors.secondary,
   },
   container: {
-    flex: 1,
+    position:'absolute',
+    top: 200,
     padding: 20,
     width: '100%',
     maxWidth: 340,

@@ -8,11 +8,13 @@ import { Text } from "react-native-paper";
 import { NameValidation } from "../Helper/NameValidatio";
 import { EmailValidation } from "../Helper/EmailValidation";
 import { PasswordValidation } from "../Helper/PasswordValidation";
+import { useNavigation } from "@react-navigation/native";
 
 const Registation = () => {
   const [email, setEmail] = useState({ value: "", email: "" });
   const [password, setPassword] = useState({ value: "", password: "" });
   const [name, setName] = useState({ value: "", name: "" });
+  const navigation = useNavigation();
 
   const onSignPressed = () => {
       const nameError = NameValidation(name.value)
@@ -81,9 +83,12 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: theme.colors.primary,
+    marginLeft:5
   },
   container: {
-    flex: 1,
+    // flex: 1,
+    position:'absolute',
+    top:200,
     width: '100%',
     padding: 20,
     maxWidth: 340,
